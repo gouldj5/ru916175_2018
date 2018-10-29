@@ -1,0 +1,213 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>RADAR MIDTERM - Joshua Gould</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-10-29"><meta name="DC.source" content="Midtermwor.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>RADAR MIDTERM - Joshua Gould</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">SNR at 20km</a></li><li><a href="#3">CNR at 20km</a></li><li><a href="#4">Generate S/(C+N) at 20 km.</a></li><li><a href="#5">Mean sea clutter reflectivity at S/(C+N) of exactly 15 dB?</a></li></ul></div><pre class="codeinput">clc
+f = 5; <span class="comment">%GHz (C-Band - vertical polarization)</span>
+PKP = 5; <span class="comment">%kW</span>
+CPA = 1.00; <span class="comment">%meters</span>
+NoiseFigure = 3;
+TotalSystemLosses = 10; <span class="comment">%dB</span>
+Dutyf = .05; <span class="comment">%</span>
+DwellL = 1.0; <span class="comment">%ms</span>
+B = 1; <span class="comment">%MHz.</span>
+</pre><h2 id="2">SNR at 20km</h2><pre class="codeinput">clc
+Ar = pi*(0.5)^2;
+c = 299792458;
+WL = (c/5000000000); <span class="comment">%wavelength lamda</span>
+R_g = (Ar*4*pi) / (WL^2);
+R_g_db = 10*log10(R_g);
+SNR = 7.2724;
+fprintf(<span class="string">'The SNR at 20km = %f db. '</span>, SNR);
+fprintf(<span class="string">'\nThe SNR is NOT detectable as %f is less than 15.'</span>, SNR);
+</pre><pre class="codeoutput">The SNR at 20km = 7.272400 db. 
+The SNR is NOT detectable as 7.272400 is less than 15.</pre><h2 id="3">CNR at 20km</h2><pre class="codeinput">clc
+D = 1.00; <span class="comment">%diameter</span>
+PKP = 10*log10(5000); <span class="comment">%peak power</span>
+
+Tpross = 10* log10(.001); <span class="comment">%processing time, ms</span>
+Gt = 34.38;
+Gr = 34.38;
+DF = 10*log10(0.05);
+WL = (c/5000000000); <span class="comment">%wavelength lamda</span>
+WLdb = 10*log10(90000 / (5000)^2);
+pi4 = 10 * log10(64*pi*pi*pi);
+Bwidth = WL/D; <span class="comment">%beamwidth</span>
+PulseWidth = 1 / (B*1000000);
+km = 40*log10(20000); <span class="comment">%m</span>
+Sstate = 3; <span class="comment">%sea state</span>
+AngleG = 0.125; <span class="comment">%grazing angle</span>
+L = 1 / B;
+Pol = <span class="string">'V'</span>;
+NRL = NRL_SigmaSea(f,Sstate,<span class="string">'V'</span>,AngleG);
+WCC = 20 * 1000 * Bwidth; <span class="comment">%Width of clutter cell, m</span>
+RCC = PulseWidth * (1.5*(10)^8);<span class="comment">%Range of clutter cell, m =pulsewidth x 1.5E8 m/s</span>
+CLUTA = WCC * RCC; <span class="comment">%Clutter Area</span>
+RCSdb = 10* log10(CLUTA * 10^(NRL / 10));
+RCS = CLUTA * 10^(NRL / 10);
+k = 228.60; <span class="comment">% Boltzman Constant</span>
+T0 = 24.62; <span class="comment">%temp</span>
+Nfig = 3;
+Eloss = 10;
+CNR = Gt+ Gr + PKP + RCSdb + DF + k - pi4 + Tpross - T0 + WLdb - Nfig - Eloss - km;
+fprintf(<span class="string">'The CNR at 20km = %f db. '</span>, CNR);
+fprintf(<span class="string">'\nThe Clutter Cross Sectional area = %f dbm^2. '</span>, RCS);
+</pre><pre class="codeoutput">The CNR at 20km = 15.898734 db. 
+The Clutter Cross Sectional area = 0.145673 dbm^2. </pre><h2 id="4">Generate S/(C+N) at 20 km.</h2><pre class="codeinput">clc
+SCPN = 1/(1/(SNR) + 1/(CNR));
+fprintf(<span class="string">'The S/(C+N) at 20km = %f db. '</span>, SCPN);
+fprintf(<span class="string">'\nThe target is NOT detectable as %f is less than 15 db.'</span>, SCPN);
+</pre><pre class="codeoutput">The S/(C+N) at 20km = 4.989913 db. 
+The target is NOT detectable as 4.989913 is less than 15 db.</pre><h2 id="5">Mean sea clutter reflectivity at S/(C+N) of exactly 15 dB?</h2><pre class="codeinput">clc;
+NRLn = -90.931063;
+RCSn = 10*log10(CLUTA * 10^(NRLn / 10));
+CNRn = Gt + Gr + PKP + RCSn + DF + k - pi4 + Tpross - T0 + WLdb - Nfig - Eloss - km;
+fprintf(<span class="string">'Mean sea clutter reflectivity = %f dbm^2 / m^2'</span>,NRLn);
+fprintf(<span class="string">'\nNew CNR = %f db'</span>,CNRn);
+SCPNn = 1/(1/(SNR) + 1/(CNRn));
+fprintf(<span class="string">'\nNew S/(C+N) = %f db'</span>,SCPNn);
+</pre><pre class="codeoutput">Mean sea clutter reflectivity = -90.931063 dbm^2 / m^2
+New CNR = -14.116414 db
+New S/(C+N) = 15.000000 db</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% RADAR MIDTERM - Joshua Gould
+%%
+clc
+f = 5; %GHz (C-Band - vertical polarization)
+PKP = 5; %kW
+CPA = 1.00; %meters
+NoiseFigure = 3;
+TotalSystemLosses = 10; %dB
+Dutyf = .05; %
+DwellL = 1.0; %ms
+B = 1; %MHz.
+
+%% SNR at 20km
+clc
+Ar = pi*(0.5)^2; 
+c = 299792458;
+WL = (c/5000000000); %wavelength lamda
+R_g = (Ar*4*pi) / (WL^2);
+R_g_db = 10*log10(R_g);
+SNR = 7.2724;
+fprintf('The SNR at 20km = %f db. ', SNR); 
+fprintf('\nThe SNR is NOT detectable as %f is less than 15.', SNR);
+%% CNR at 20km
+clc
+D = 1.00; %diameter
+PKP = 10*log10(5000); %peak power
+
+Tpross = 10* log10(.001); %processing time, ms
+Gt = 34.38;
+Gr = 34.38;
+DF = 10*log10(0.05);
+WL = (c/5000000000); %wavelength lamda
+WLdb = 10*log10(90000 / (5000)^2);
+pi4 = 10 * log10(64*pi*pi*pi);
+Bwidth = WL/D; %beamwidth
+PulseWidth = 1 / (B*1000000); 
+km = 40*log10(20000); %m
+Sstate = 3; %sea state
+AngleG = 0.125; %grazing angle
+L = 1 / B;
+Pol = 'V';
+NRL = NRL_SigmaSea(f,Sstate,'V',AngleG);
+WCC = 20 * 1000 * Bwidth; %Width of clutter cell, m
+RCC = PulseWidth * (1.5*(10)^8);%Range of clutter cell, m =pulsewidth x 1.5E8 m/s
+CLUTA = WCC * RCC; %Clutter Area
+RCSdb = 10* log10(CLUTA * 10^(NRL / 10));
+RCS = CLUTA * 10^(NRL / 10);
+k = 228.60; % Boltzman Constant
+T0 = 24.62; %temp
+Nfig = 3;
+Eloss = 10;
+CNR = Gt+ Gr + PKP + RCSdb + DF + k - pi4 + Tpross - T0 + WLdb - Nfig - Eloss - km;
+fprintf('The CNR at 20km = %f db. ', CNR); 
+fprintf('\nThe Clutter Cross Sectional area = %f dbm^2. ', RCS);
+%% Generate S/(C+N) at 20 km.
+clc
+SCPN = 1/(1/(SNR) + 1/(CNR));
+fprintf('The S/(C+N) at 20km = %f db. ', SCPN);
+fprintf('\nThe target is NOT detectable as %f is less than 15 db.', SCPN);
+%% Mean sea clutter reflectivity at S/(C+N) of exactly 15 dB?
+clc;
+NRLn = -90.931063; 
+RCSn = 10*log10(CLUTA * 10^(NRLn / 10));
+CNRn = Gt + Gr + PKP + RCSn + DF + k - pi4 + Tpross - T0 + WLdb - Nfig - Eloss - km;
+fprintf('Mean sea clutter reflectivity = %f dbm^2 / m^2',NRLn);
+fprintf('\nNew CNR = %f db',CNRn); 
+SCPNn = 1/(1/(SNR) + 1/(CNRn));
+fprintf('\nNew S/(C+N) = %f db',SCPNn);
+
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>
