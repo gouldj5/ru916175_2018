@@ -1,0 +1,36 @@
+// Generated for: spectre
+// Generated on: Sep 18 16:06:25 2018
+// Design library name: tutorials
+// Design cell name: invx
+// Design view name: schematic
+simulator lang=spectre
+global 0 vcc!
+parameters vin=1.5V wn=1.5u wp=3u
+include "/home/shin/pdk/ncsu-cdk-1.6.0.beta/models/spectre/nom/ami06N.m"
+include "/home/shin/pdk/ncsu-cdk-1.6.0.beta/models/spectre/nom/ami06P.m"
+
+// Library name: tutorials
+// Cell name: invx
+// View name: schematic
+N0 (net6 net3 0 0) ami06N w=wn l=600n as=wn * 2.5 * (600n) ad=wn * 2.5 * (600n) \
+         ps=(2 * wn) + (5 * (600n)) pd=(2 * wn) + (5 * (600n)) m=1 \
+        region=sat
+P0 (net6 net3 vcc! vcc!) ami06P w=wp l=600n as=wp * 2.5 * (600n) ad=wp * 2.5 * (600n) \
+         ps=(2 * wp) + (5 * (600n)) pd=(2 * wp) + (5 * (600n)) m=1 \
+        region=sat
+V1 (net3 0) vsource type=dc dc=vin
+V0 (vcc! 0) vsource type=dc dc=5
+simulatorOptions options reltol=1e-3 vabstol=1e-6 iabstol=1e-12 temp=27 \
+    tnom=27 scalem=1.0 scale=1.0 gmin=1e-12 rforce=1 maxnotes=5 maxwarns=5 \
+    digits=5 cols=80 pivrel=1e-3 sensfile="../psf/sens.output" \
+    checklimitdest=psf 
+dc dc param=vin start=0 stop=5 step=0.025 write="spectre.dc" \
+    oppoint=rawfile maxiters=150 maxsteps=10000 annotate=status 
+modelParameter info what=models where=rawfile
+element info what=inst where=rawfile
+outputParameter info what=output where=rawfile
+designParamVals info what=parameters where=rawfile
+primitives info what=primitives where=rawfile
+subckts info what=subckts where=rawfile
+save P0:s N0:d V1:p net6 
+saveOptions options save=allpub

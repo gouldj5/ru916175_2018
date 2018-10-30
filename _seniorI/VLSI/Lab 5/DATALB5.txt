@@ -7,10 +7,16 @@ Ap_d@ 2.5 V = 1.14ns
 outt_r @ 4V = 1.25922ns
 outt_r @ 1V = 1.20111ns
 
+t_r = 0.05811ns
+
 outt_f @ 4V = 2.09290ns
 outt_f @ 1V = 2.15799ns
 
+t_f = 0.06509ns
+
 outp_d @ 2.5V = 1.22361ns
+
+t_pd = 1.181805ns
 
 _______
 
@@ -18,5 +24,9 @@ Presim
 outt_r @ 4V = 1.39408ns
 outt_r @ 1V = 1.24519ns
 
+t_r 0.14889ns
+
 outt_f @ 4V = 2.13035ns 
 outt_f @ 1V = 2.26974ns 
+
+t_f = 0.13939ns
