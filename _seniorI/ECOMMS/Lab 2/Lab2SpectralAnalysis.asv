@@ -1,0 +1,24 @@
+iTones = 0;
+part1SingleTones = cell(6,1);
+for iDepth = [10 30 60 80 100 120]
+   iTones = iTones + 1; 
+   part1SingleTones{iTones} = csvread(['singletone_',num2str(iDepth),'.csv'],2);
+end
+time = part1SingleTones{1}(:,1);
+envelops = zeros(size(time,1),6);
+modulatedSignals = zeros(size(time,1),6);
+for iDepth = 1:6
+   modulatedSignals(:,iDepth) = part1SingleTones{iDepth}(:,2);
+   envelops(:,iDepth) = part1SingleTones{iDepth}(:,3);
+end
+Ts = time(size(time,1)) - time(size(time,1)-1);
+Fs = 1/Ts;
+L = size(time,1);
+F = Fs*(0:(L-1))/L;
+spectrum
+for iDepth = 1:6
+   spectrumModulated 
+end
+Y = fft(modulatedSignals(:,5));
+P2 = abs(Y/L);
+plot(F,P2)
