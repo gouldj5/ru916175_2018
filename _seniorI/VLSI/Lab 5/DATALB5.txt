@@ -1,0 +1,22 @@
+NAND GRAPH
+At_f @ 4 V = 1.12ns
+At_f @ 1 V = 1.18ns
+
+Ap_d@ 2.5 V = 1.14ns
+
+outt_r @ 4V = 1.25922ns
+outt_r @ 1V = 1.20111ns
+
+outt_f @ 4V = 2.09290ns
+outt_f @ 1V = 2.15799ns
+
+outp_d @ 2.5V = 1.22361ns
+
+_______
+
+Presim
+outt_r @ 4V = 1.39408ns
+outt_r @ 1V = 1.24519ns
+
+outt_f @ 4V = 2.13035ns 
+outt_f @ 1V = 2.26974ns 
