@@ -1,0 +1,184 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Radar Homework Chapter 9 - Joshua Gould</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-10-30"><meta name="DC.source" content="Chapter9Homework.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Radar Homework Chapter 9 - Joshua Gould</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">9-8</a></li><li><a href="#2">9-9</a></li></ul></div><h2 id="1">9-8</h2><pre class="codeinput"><span class="comment">%Consider a five-element linear array with element spacing of 0.5 wavelengths. Assume the</span>
+<span class="comment">%path length from each element to summation point (phi n) is equal. Using computational software</span>
+<span class="comment">%(e.g., Matlab, Excel), plot the normalized array factor for incidence angles from -90 to +90?.</span>
+<span class="comment">%MATLAB Code from Sensor Array Analyzer App</span>
+
+<span class="comment">% Create a uniform linear array</span>
+h = phased.ULA;
+h.NumElements = 5;
+h.ElementSpacing = 0.5;
+h.ArrayAxis = <span class="string">'y'</span>;
+<span class="comment">%Create Isotropic Antenna Element</span>
+el = phased.IsotropicAntennaElement;
+h.Element = el;
+<span class="comment">%Assign frequencies and propagation speed</span>
+F = 300000000;
+PS = 300000000;
+<span class="comment">%Create figure, panel, and axes</span>
+fig = figure;
+panel = uipanel(<span class="string">'Parent'</span>,fig);
+hAxes = axes(<span class="string">'Parent'</span>,panel,<span class="string">'Color'</span>,<span class="string">'none'</span>);
+NumCurves = length(F);
+<span class="comment">%Plot 2d graph</span>
+fmt = <span class="string">'rectangular'</span>;
+cutAngle = 0;
+pattern(h, F, -90:90, cutAngle, <span class="string">'PropagationSpeed'</span>, PS, <span class="string">'Type'</span>, <span class="keyword">...</span>
+    <span class="string">'directivity'</span>, <span class="string">'CoordinateSystem'</span>, fmt );
+axis(hAxes,<span class="string">'square'</span>)
+<span class="comment">%Create legend</span>
+legend_string = cell(1,NumCurves);
+lines = findobj(gca,<span class="string">'Type'</span>,<span class="string">'line'</span>);
+<span class="keyword">for</span> idx = 1:NumCurves
+    [Fval, ~, Fletter] = engunits(F(idx));
+    legend_string{idx} = [num2str(Fval) Fletter <span class="string">'Hz; No Steering'</span>];
+<span class="keyword">end</span>
+legend(legend_string, <span class="string">'Location'</span>, <span class="string">'southeast'</span>);
+</pre><img vspace="5" hspace="5" src="Chapter9Homework_01.png" alt=""> <h2 id="2">9-9</h2><pre class="codeinput"><span class="comment">%A linear array is to be designed that operates at 10 GHz and has a 1deg beamwidth (assume</span>
+<span class="comment">%uniform illumination). This array must electronically scan to 65? without grating lobes. What</span>
+<span class="comment">%will the element spacing be? How many elements will be used?</span>
+clc
+f = 10; <span class="comment">%GHz</span>
+c = 300000000; <span class="comment">%m/s</span>
+WL = (c / (f*10^9));
+Bw = 1; <span class="comment">%degree beamwidth</span>
+Tbw = 65 * (pi/180); <span class="comment">%degree target scan</span>
+k = 228.60; <span class="comment">% Boltzman Constant</span>
+
+x = (WL / (1 + sin(Tbw) )) ;
+Bwr = 1 * pi/180;
+L = ( 0.886 * WL )/Bwr; <span class="comment">%L in m</span>
+N = L / x;
+fprintf(<span class="string">'x = %f m. '</span>,x)
+fprintf (<span class="string">'\nNumber of elements = %f.'</span>,round(N))
+</pre><pre class="codeoutput">x = 0.015737 m. 
+Number of elements = 97.000000.</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Radar Homework Chapter 9 - Joshua Gould
+
+%% 9-8
+%Consider a five-element linear array with element spacing of 0.5 wavelengths. Assume the
+%path length from each element to summation point (phi n) is equal. Using computational software
+%(e.g., Matlab, Excel), plot the normalized array factor for incidence angles from -90 to +90?.
+%MATLAB Code from Sensor Array Analyzer App
+
+% Create a uniform linear array
+h = phased.ULA;
+h.NumElements = 5;
+h.ElementSpacing = 0.5;
+h.ArrayAxis = 'y';
+%Create Isotropic Antenna Element
+el = phased.IsotropicAntennaElement;
+h.Element = el;
+%Assign frequencies and propagation speed
+F = 300000000;
+PS = 300000000;
+%Create figure, panel, and axes
+fig = figure;
+panel = uipanel('Parent',fig);
+hAxes = axes('Parent',panel,'Color','none');
+NumCurves = length(F);
+%Plot 2d graph
+fmt = 'rectangular';
+cutAngle = 0;
+pattern(h, F, -90:90, cutAngle, 'PropagationSpeed', PS, 'Type', ...
+    'directivity', 'CoordinateSystem', fmt );
+axis(hAxes,'square')
+%Create legend
+legend_string = cell(1,NumCurves);
+lines = findobj(gca,'Type','line');
+for idx = 1:NumCurves
+    [Fval, ~, Fletter] = engunits(F(idx));
+    legend_string{idx} = [num2str(Fval) Fletter 'Hz; No Steering'];
+end
+legend(legend_string, 'Location', 'southeast');
+
+
+
+%% 9-9
+%A linear array is to be designed that operates at 10 GHz and has a 1deg beamwidth (assume
+%uniform illumination). This array must electronically scan to 65? without grating lobes. What
+%will the element spacing be? How many elements will be used?
+clc
+f = 10; %GHz
+c = 300000000; %m/s
+WL = (c / (f*10^9));
+Bw = 1; %degree beamwidth
+Tbw = 65 * (pi/180); %degree target scan
+k = 228.60; % Boltzman Constant
+
+x = (WL / (1 + sin(Tbw) )) ;
+Bwr = 1 * pi/180;
+L = ( 0.886 * WL )/Bwr; %L in m
+N = L / x;
+fprintf('x = %f m. ',x)
+fprintf ('\nNumber of elements = %f.',round(N))
+##### SOURCE END #####
+--></body></html>
