@@ -36,6 +36,8 @@ w_c = 2 * pi * f_c;
 RF = 500*cos(w_c * t + 20 *cos(w_1)*t);
 plot(t, RF)
 
+
+
 %a) 
 
 

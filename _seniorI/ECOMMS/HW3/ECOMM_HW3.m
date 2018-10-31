@@ -36,8 +36,12 @@ w_c = 2 * pi * f_c;
 RF = 500*cos(w_c * t + 20 *cos(w_1)*t);
 plot(t, RF)
 
-%a) 
+D = 100; % rad/ V
 
+%a) 
+mp_t = (20 / D)*cos(w_1*t)
+
+plot(t,mp_t)
 
 %b)
 
