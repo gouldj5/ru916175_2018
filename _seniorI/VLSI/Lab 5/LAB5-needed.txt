@@ -1,24 +1,66 @@
-<> NAND symbol post
-<> NAND symbol pre
-<> DRC update
-<> LVS update?
-<> Total Layout area + Picture
-<> Inverter symbol
-<> Interter DRC update
-<> Interver LVS update
+<x> NAND symbol post
+<x> DRC update
+<x> LVS update?
+<x> Total Layout area + Picture
+
+<x> Inverter symbol
+<x> Interter DRC update
+<x> Interver LVS update
 <> Inverter post sim
-<> Inverter pre sim
-<> Inverter layout size + pic
+<x> Inverter pre sim
+<x> Inverter layout size + pic
 <> Inverter sim data + pic
 
 -------------------------------------
 DATA LAB 5
 
+INV Graph
+int_f @ 4 V = 1.12 ns
+int_f @ 1 V = 1.17986 ns (1.18?)
+int_r @ 4 V = 2.08 ns
+int_r @ 1 V = 2.02 ns 
+inp_df@ 2.5 V = 1.15 ns
+inp_dr@ 2.5 V = 2.05 ns
+
+outt_r @ 4V = 1.23117 ns
+outt_r @ 1V = 1.18 ns
+outt_f @ 4V = 2.10161 ns
+outt_f @ 1V = 2.15547 ns
+outp_df @ 2.5V = 2.12574 ns
+outp_dr @ 2.5V = 1.20368 ns
+
+tpdf = 0.07574 ns
+tpdr = 0.05368 ns
+tpd = 0.064710 ns
+------------------
+Presim 
+------------------
+outp_df @ 2.5V = 2.12574 ns
+outp_dr @ 2.5V = 1.20387 ns
+outt_r @ 4V = 1.23117 ns
+outt_r @ 1V = 1.18 ns
+outt_f @ 4V = 2.10161 ns
+outt_f @ 1V = 2.15547 ns
+
+inp_df@ 2.5 V = 1.15 ns
+inp_dr@ 2.5 V = 2.05 ns
+int_f @ 4 V = 1.12 ns
+int_f @ 1 V = 1.18024 ns (1.18?)
+int_r @ 4 V = 2.08 ns
+int_r @ 1 V = 2.02 ns 
+
+tpdf = 0.07574 ns
+tpdr = 0.05387 ns
+tpd = 0.064805 ns
+--------------------
 NAND GRAPH
+--------------------
+
 At_f @ 4 V = 1.12ns
 At_f @ 1 V = 1.18ns
 
-Ap_d@ 2.5 V = 1.14ns
+Ap_df@ 2.5 V = 1.14ns
+Ap_dr@ 2.5 V = 2.05ns
 
 outt_r @ 4V = 1.25922ns
 outt_r @ 1V = 1.20111ns
@@ -26,13 +68,18 @@ outt_r @ 1V = 1.20111ns
 outt_f @ 4V = 2.09290ns
 outt_f @ 1V = 2.15799ns
 
-outp_d @ 2.5V = 1.22361ns
-
+outp_df @ 2.5V = 1.22361ns
+outp_dr @ 2.5V = 2.11720ns
+size  = 9.6 x 18.9
 _______
 
 Presim
 outt_r @ 4V = 1.39408ns
 outt_r @ 1V = 1.24519ns
-
+tr_out = 0.07146
 outt_f @ 4V = 2.13035ns 
 outt_f @ 1V = 2.26974ns 
+t_f_out = 0.12005
+tpdf = 1.22066-1.15
+tpdr = 2.17913-2.05
+tpd = 0.099895
