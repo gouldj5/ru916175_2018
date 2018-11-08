@@ -1,0 +1,7 @@
+* source ASSIGN7
+M_M1         N04321 N04328 N04225 N04225 MbreakP           
+M_M2         N04225 N04328 0 0 MbreakN           
+V_V1         N04321 0 12
+V_V2         N04328 0  AC 0
++SIN 0 0.5 100Hz 0 0 0
+R_R4         0 N04225  10k TC=0,0 

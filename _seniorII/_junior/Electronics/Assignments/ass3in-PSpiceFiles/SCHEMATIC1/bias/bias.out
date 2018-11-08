@@ -1,0 +1,127 @@
+
+**** 06/18/17 23:21:39 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-bias"  [ Z:\ass3in-pspicefiles\schematic1\bias.sim ] 
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+
+** Creating circuit file "bias.cir" 
+** WARNING: THIS AUTOMATICALLY GENERATED FILE MAY BE OVERWRITTEN BY SUBSEQUENT SIMULATIONS
+
+*Libraries: 
+* Profile Libraries :
+* Local Libraries :
+* From [PSPICE NETLIST] section of C:\Users\Joshua Gold\AppData\Roaming\SPB_Data\cdssetup\OrCAD_PSpice\17.2.0\PSpice.ini file:
+.lib "nomd.lib" 
+
+*Analysis directives: 
+.TRAN  0 1.5m 0 1u 
+.OPTIONS ADVCONV
+.PROBE64 V(alias(*)) I(alias(*)) W(alias(*)) D(alias(*)) NOISE(alias(*)) 
+.INC "..\SCHEMATIC1.net" 
+
+
+
+**** INCLUDING SCHEMATIC1.net ****
+* source ASS3IN
+R_R1         N14434 N14443  1k TC=0,0 
+V_V1         N14434 0 10Vdc
+V_V2         N15615 0  AC 1
++SIN 0 10 1k 0 0 0
+R_R2         0 N15625  1k TC=0,0 
+D_D3         N15615 N15625 LB_543C-typ 
+D_D4         N14443 0 D1N4148 
+R_R3         N16939 N16827  1k TC=0,0 
+D_D9         0 N16827 D1N4007 
+D_D10         N16939 0 D1N4007 
+D_D11         N16813 N16939 D1N4007 
+D_D12         N16827 N16813 D1N4007 
+V_V3         N16813 0  AC 1
++SIN 0 10 1k 0 0 0
+
+**** RESUMING bias.cir ****
+.END
+
+**** 06/18/17 23:21:39 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-bias"  [ Z:\ass3in-pspicefiles\schematic1\bias.sim ] 
+
+
+ ****     Diode MODEL PARAMETERS
+
+
+******************************************************************************
+
+
+
+
+               LB_543C-typ     D1N4148         D1N4007         D1N4001         
+          IS  391.230000E-18    2.682000E-09   14.110000E-09   14.110000E-09 
+           N    3.7776          1.836           1.984           1.984        
+         ISR                    1.565000E-09                                 
+         IKF                     .04417        94.81           94.81         
+          BV                  100               1.500000E+03   75            
+         IBV                  100.000000E-06   10.000000E-06   10.000000E-06 
+          RS   28.602            .5664           .03389          .03389      
+          TT                   11.540000E-09    5.700000E-06    5.700000E-06 
+         CJO                    4.000000E-12   25.890000E-12   25.890000E-12 
+          VJ                     .5              .3245           .3245       
+           M                     .3333           .44             .44         
+
+
+**** 06/18/17 23:21:39 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-bias"  [ Z:\ass3in-pspicefiles\schematic1\bias.sim ] 
+
+
+ ****     INITIAL TRANSIENT SOLUTION       TEMPERATURE =   27.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(N14434)   10.0000 (N14443)     .7184 (N15615)    0.0000 (N15625)-22.09E-30     
+
+(N16813)    0.0000 (N16827)-711.4E-21 (N16939)-711.4E-21 
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_V1        -9.282E-03
+    V_V2         0.000E+00
+    V_V3         0.000E+00
+
+    TOTAL POWER DISSIPATION   9.28E-02  WATTS
+
+
+
+          JOB CONCLUDED
+
+**** 06/18/17 23:21:39 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-bias"  [ Z:\ass3in-pspicefiles\schematic1\bias.sim ] 
+
+
+ ****     JOB STATISTICS SUMMARY
+
+
+******************************************************************************
+
+
+
+  Total job time (using Solver 1)   =         .20
+

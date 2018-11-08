@@ -1,0 +1,3 @@
+.ALIASES
+V_V1            V1(+=0 -=0 ) CN @ANS.SCHEMATIC1(sch_1):INS32@SOURCE.VSIN.Normal(chips)
+.ENDALIASES
