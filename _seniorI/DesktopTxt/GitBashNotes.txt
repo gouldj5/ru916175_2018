@@ -1,0 +1,9 @@
+ls - list    dir -directory
+cd - change directory
+-> nothing else is all the way up (root)
+.. up by one
+
+git add README.md
+git add all / *
+-> stages any file that has any changes
+

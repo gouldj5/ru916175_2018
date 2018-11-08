@@ -1,0 +1,6 @@
+^= maintain previous, make bit 1
+&= ~ clear 1 bit
+AND -> read/mask it
+
+
+if (P1IN & BIT3)

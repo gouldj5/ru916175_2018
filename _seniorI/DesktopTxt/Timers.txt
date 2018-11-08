@@ -1,0 +1,24 @@
+Timers:
+Counts
+
+3 behaviors that these timers exhibit
+
+> 16 bit timer, continuous mode, continue until 0xFFFF   
+> 16 bit timer, defined limit, continue until 0x(set number) Up mode
+> Up/Down mode
+
+Where does the clk come from the board?
+Aclk			Clock divider sits between
+MClk			MUX and MSP430
+SMClk			
+USBClk
+ 
+Interupts are better than pull
+Interupts must be enabled > better on CPU but can run into conflicts
+
+CCR ( Capture and Compare Register) - 16 bit registers
+CCR0, CCR1, CCR2 - sets when timer resets
+Captures different points
+1 1 1 1 0 0 0 1 Mask it (AND) to find point
+
+add case 8 for both CCRs going off

@@ -1,0 +1,45 @@
+Process byte by byte
+
+Byte 0 - number of bytes in string (0x08 in this ex)
+Byte1-3- R, G, B, respectively for current node
+Byte4-6- R, G, B for next node
+Byte7  - 0x0D /r "stop"
+
+smallest packet is 5 bytes
+largest packet is 
+
+5 = AM + S
+8 = 3M + 2
+
+ByteCount
+int ByteCount = 0;  //set equal to 0
+int NumOfBytes = 0;
+char Message[80];
+int Red, Green, Blue;
+
+
+if (ByteCount = 0) {
+ Num of bytes = UCA0RXBUF;
+ ByteCount++;
+} else if ((ByteCount > 0) & (ByteCount < 4)) {
+ select(ByteCount)
+	case 1: 
+		Red = UCA0RXBUF;
+	case 2:
+		Green = UCA0RXBUF;
+	case 3:
+		Blue = UCA0RXBUF;
+ ByteCount++
+} else if (ByteCount > 3) & (Bytecount < NumofBytes) {
+
+	Message[ByteCount-3] = UCA0RXBUF; //adds message at each byte (-4 +1)
+	ByteCount++;
+} else if (Laste byte){
+ transmit;
+ ByteCount = 0; 
+}
+
+
+"905" 
+
+function a to i

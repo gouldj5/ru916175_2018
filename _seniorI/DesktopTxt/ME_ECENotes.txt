@@ -1,0 +1,91 @@
+Chapter 3: The effects of forces on materials
+3.1 - Force 
+
+can cause either a change in shape or motion of a body
+
+force[N] newtons		f --> --> a
+
+NO solid body is perfectly rigid
+Ex: bridge span will sag
+    wrench will bend when tightening nut
+
+   forces: (3 types)
+	1. tensile
+	2. compressive
+	3. shear
+
+3.2 Tensile force - tends to stretch material
+
+	F <-- [=====]--> F
+	
+	i)   role or cable are in tension
+	ii)  rubber band in tension when stretched
+	iii) bolt under tension when nut is tightened
+
+3.3 Compressive Force - tends to squeeze or crush material
+
+	F --> [=====] <-- F
+
+	i)   pillar supporting bridge
+	ii)  sole of shoe
+	iii) jib of crane
+
+3.4 Shear Force - tends to slide one face of material over adjacent face
+
+	F <--[====|=] 
+	   	[=|====]-->F
+
+	i)   rivet is a shear
+	ii)  guillotine cutting metal
+	iii) a horizontal beam
+	iv)  transmission joints
+
+3.5 Stress force neting on a material causing a change in demension
+
+stress ratio of F to cross sectional area A
+
+o = F/A [Pa] - Pascal N/m^2 
+^for tension and compression
+
+T-tau = F/A < for sheer stress
+
+Rectangular bar having cross-sectional area of 75mm^2 has tensile force of 15kN applied. 
+Determine stress in bar.
+
+given: 	A = 75 mm^2
+	F = 15 kN
+find: stress,m o = ?
+equation: 
+	o = F/A = 75 mm^2/15 kN
+	o = 200,000 Pa
+
+3.6 Strain - fractional change in demension of material when a force is applied
+
+	tension or compression strain:
+	 
+	E(episilon) = x/L	F <--[__L__]-x-]->
+		x - change in length
+		L - original length 
+
+	shear strain:
+
+	\o/(gamma)= x/L
+
+strain is expressed as a percentage
+
+Ex: 
+Given:	10mm
+	20mPa
+	3kN
+find breadth
+equation: 
+	o = F/A = f/wb -> b = F /wo
+
+3.7 Elasticity, limit of proportionality, elastic limit
+
+Elasticity - ability of material to return
+plasticity - property of material being permanently deformed
+
+....
+
+3.8 Hooke's Law - within the limit of proportionality the extension of a material is proportional to the applied force

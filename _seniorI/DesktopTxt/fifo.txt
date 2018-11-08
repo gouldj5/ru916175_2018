@@ -1,0 +1,13 @@
+	#(parameter W_SIZE = 2) // 2_W_SIZE words in FIFO
+
+// instantiate fifo buffer
+fifo#(.B(8), .W(W_SIZE)) fifo_key_unit
+	(.clk(clk), 
+	.reset(reset), 
+	.rd(rd_key_code),
+	.wr(got_code_tick), 
+	.w_data(scan_out),
+	.empty(kb_buf_empty), 
+	.r_data(key_code)
+	);
+

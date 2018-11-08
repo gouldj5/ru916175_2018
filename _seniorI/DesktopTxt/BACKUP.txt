@@ -1,0 +1,329 @@
+#include "stdafx.h"
+#include <iostream>     // Provides cout and cin
+#include <cstdlib>      // Provides EXIT_SUCCESS
+#include <string>
+#include "bag3.h"       // probably going to use sorted lists from the bag
+#include "node1.h"
+#include "room.h"
+#include "enemy.h"
+#include "Player.h"
+#include "Game.h"
+#include "attack.h"
+using namespace std;
+using namespace link;
+
+struct Player
+{
+	string m_name;
+};
+void WelcomePlayer(Player& player)
+{
+	string y;
+	int i;
+	cout << "Welcome to Text Adventure!" << endl << endl;
+	cout << "What is your name?" << endl << endl;
+	cin >> player.m_name;
+	cout << endl << "Hello " << player.m_name << endl;
+	cout << "\n----------------------Press any key to continue----------------------" << endl;
+	cout << "Did you ever hear the tragedy of Darth Plagueis the Wise?\n" << endl;
+	cin >> y;
+	if (y == "no" | y == "No") {
+		cout << "I thought not. It's not a story the Jedi would tell you.\nIt's a Sith legend.Darth Plagueis was a Dark Lord of the Sith, \n so powerful and so wise he could use the Force to influence the midichlorians to create life... \nHe had such a knowledge of the dark side that he could even keep the ones he cared about from dying.\n\n The dark side of the Force is a pathway to many abilities some consider to be unnatural.\n He became so powerful... the only thing he was afraid of was losing his power, which eventually, of course, he did.\n Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep.\n\nIronic, \nhe could save others from death,...\nbut not himself.\n\n\n" << endl;
+	}
+	else {
+		cout << "It's not a story the Jedi would tell you.\nAs you know, he was a Sith legend and a Dark Lord of the Sith, \nso powerful and so wise he could use the Force to influence the midichlorians to create life... \nHe had such a knowledge of the dark side that he could even keep the ones he cared about from dying.\n\n The dark side of the Force is a pathway to many abilities some consider to be unnatural.\n He became so powerful... the only thing he was afraid of was losing his power, which eventually, of course, he did.\n Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep.\n\nIronic, \nhe could save others from death,...\nbut not himself.\n\n\n" << endl;
+	};
+}
+void GivePlayerOptions()
+{
+	cout <<
+		"What would you like to do? (Enter a corresponding number)"
+		<< endl << endl;
+	cout << "1: Quit" << endl;
+	cout << "2: Attack" << endl;
+	cout << "3: Move" << endl;
+}
+void GetPlayerInput(string& playerInput)
+{
+	cin >> playerInput;
+}
+enum class PlayerOptions
+{
+	Quit,
+	Attack,
+	Move,
+	None
+};
+PlayerOptions EvaluateInput(string& playerInput)
+{
+	PlayerOptions chosenOption = PlayerOptions::None;
+	if (playerInput.compare("1") == 0)
+	{
+		cout << "You have chosen to Quit!" << endl << endl;
+		chosenOption = PlayerOptions::Quit;
+	}
+	else if (playerInput.compare("2") == 0)
+	{
+		cout << "You have chosen to Attack!" << endl << endl;
+		chosenOption = PlayerOptions::Attack;
+	}
+	else if (playerInput.compare("3") == 0)
+	{
+		cout << "You have chosen to move up!" << endl << endl;
+		chosenOption = PlayerOptions::Move;
+	}
+	else
+	{
+		cout << "I do not recognize that option, try again!"
+			<< endl << endl;
+	}
+	return chosenOption;
+};
+bool RunGame()
+{
+	bool shouldEnd = false;
+	GivePlayerOptions();
+	string playerInput;
+	GetPlayerInput(playerInput);
+	shouldEnd = EvaluateInput(playerInput) == PlayerOptions::Quit;
+	return !shouldEnd;
+}
+
+int main()
+{
+	node* head = NULL;
+	bag remover;
+	int room; //room number
+	string y;
+	int i;
+
+	Player player;
+	WelcomePlayer(player);
+	bool isPlaying = true;
+	while (isPlaying)
+	{
+		isPlaying = RunGame();
+	}
+	
+	system("pause");
+	return EXIT_SUCCESS;
+}
+/*attack Evaluate(Player& player) {
+
+	string m_outputText;
+	cout << endl << "You have chosen to " << m_outputText //attack or defend
+		<< endl << endl;
+	cin >> m_outputText;
+	if (m_ouputText == "A") //A for Attack, D for defend... this may change to numbers
+	{
+		if (enemy* ehealth = 0)
+		{
+			enemy* m_enemy = Kill();
+			cout << "You killed...younglings!" << endl << endl;
+		}
+		else if (enemy* ehealth != 0) {
+			ehealth--;
+			cout << "Good swing!" << endl << endl;
+		}
+
+
+	}
+	else if (m_output = "D")
+	{
+		cout << "You've defended yourself!" << endl << std::endl;
+	}
+}*/
+
+room createRoom() {
+	return room(rand() % 1 + 1, rand() % 10 > 2 ? enemy() : NULL, rand() % 10 > 6 ? item() : NULL);
+}
+
+
+#pragma once
+#ifndef ENEMY 
+#define ENEMY
+#include "enemy.h"
+#include <string>
+#include <iostream>
+#include "Player.h"
+#include <cmath>
+using namespace std;
+
+class attack
+{
+private:
+	enemy* m_enemy;
+public:
+	attack(enemy* enemy, const string& outputText);
+	virtual void Evaluate(Player& player);
+};
+void attack::Evaluate(Player& player)
+{
+	cout << endl << "You have chosen to " << m_outputText //attack or defend
+		<< endl << endl;
+	if (m_ouputText = "A") //A for Attack, D for defend... this may change to numbers
+	{
+		if (enemy* ehealth = 0)
+		{
+			m_enemy->Kill();
+			cout << "You killed...younglings!" << endl << endl;
+		}
+		else if (enemy* ehealth != 0) {
+			ehealth--;
+			cout << "Good swing!" << endl << endl;
+		}
+			
+			
+	}
+	else if (m_output = "D")
+	{
+		cout << "You've defended yourself!" << endl << std::endl;
+	}
+}
+
+
+#pragma once
+#include "Player.h"
+#include "room.h"
+#include "Item.h"
+#include "enemy.h"
+#include <iostream>
+
+using namespace std;
+
+class Game
+{
+private:
+	static const unsigned int m_numberOfRooms = 4;
+	using room = std::array<room, m_numberOfRooms>;
+	room m_room;
+	Player m_player;
+	AttackEnemyOption m_attack;
+	MoveOption m_moveNorthOption; //Change these later if we wish
+	QuitOption m_quitOption;
+	enemy m_monster;
+	void InitializeRooms();
+	void WelcomePlayer();
+	void GivePlayerOptions() const;
+	void GetPlayerInput(std::stringstream& playerInput) const;
+	PlayerOptions EvaluateInput(std::stringstream& playerInput);
+public:
+	Game();
+	void RunGame();
+};
+void Game::GivePlayerOptions() const
+{
+	cout << "What would you like to do? (Enter a corresponding number)" << endl << endl;
+	// Print the options for the room
+	m_player.GetCurrentRoom()->PrintOptions(); //Get room options like monsters and items
+}
+Game::EvaluateInput(stringstream& playerInputStream)
+{
+	PlayerOptions chosenOption = PlayerOptions::None;
+	unsigned int playerInputChoice{ 0 };
+	playerInputStream >> playerInputChoice;
+	try
+	{
+		Option* option = m_player.GetCurrentRoom()->EvaluateInput(playerInputChoice);
+		option->Evaluate(m_player);
+		chosenOption = option->GetChosenOption();
+	}
+	catch (const std::out_of_range&)
+	{
+		cout << "I do not recognize that option, try again!" << endl << endl;
+	}
+	return chosenOption;
+}
+void Game::RunGame()
+{
+	InitializeRooms();
+	WelcomePlayer();
+	bool playerWon = false;
+	bool playerQuit = false;
+	while (playerQuit == false && playerWon == false)
+	{
+		GivePlayerOptions();
+		stringstream playerInputStream;
+		GetPlayerInput(playerInputStream);
+		PlayerOptions selectedOption = EvaluateInput(playerInputStream);
+		playerQuit = selectedOption == PlayerOptions::Quit;
+		playerWon = m_clearpass.IsAlive() == false;
+	}
+	if (playerWon == true)
+	{
+		cout << "Congratulations, you rid the dungeon of younglings and beat clearpass!" << endl;
+		cout << "Type goodbye to end" << endl;
+		std::string input;
+		cin >> input;
+	}
+}
+//Room FUNCTIONS
+
+void room::AddStaticOption(Option* option)
+{
+	assert(option != nullptr);
+	m_staticOptions[m_staticOptionStartKey++] = option;
+}
+void room::AddDynamicOption(Option* option)
+{
+	assert(option != nullptr);
+	m_dynamicOptions.push_back(option);
+}
+void room::PrintOptions() const
+{
+	for (unsigned int i = 0; i < m_dynamicOptions.size(); ++i)
+	{
+		const Option* option = m_dynamicOptions[i];
+		std::cout << i + 1 << ": " << option->GetOutputText() << std::endl << std::endl;
+	}
+	for (StaticOptions::const_iterator iter = m_staticOptions.cbegin();
+		iter != m_staticOptions.cend();
+		++iter)
+	{
+		const Option* option = iter->second;
+		const unsigned int chosenOption = iter->first + m_dynamicOptions.size();
+		std::cout << chosenOption << ": "
+			<< option->GetOutputText() << endl << endl;
+	}
+}
+
+#pragma once
+#include <vector>
+class Player
+{
+private:
+	bool pLife{ true };
+public:
+	int phealth = 20;
+	bool eAlive() const {
+		return pLife;
+	}
+	void playerDeath() {
+		pLife = false;
+	}
+};
+#pragma once
+#include "stdafx.h"
+#include <iostream>     // Provides cout and cin
+#include <cstdlib>      // Provides EXIT_SUCCESS
+#include <string>
+#include <ctime>
+#include <algorithm>
+
+class enemy {
+
+private:
+
+	bool eLife{ true };
+
+public:
+
+	int ehealth = 1 + rand() % (6 - 1 + 1);
+	bool eAlive() const {
+		return eLife;
+	}
+	void Kill() {
+		eLife = false;
+	}
+
+};
