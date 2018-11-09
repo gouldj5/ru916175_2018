@@ -1,0 +1,1 @@
+LAB 2: Part 2 CHOOSE RC SUCH 0.33/RC = 30kHz ... RC = 11 micro ohm-farads ... assume R = 1100 ohms then C = 11 micro ohm-farads/1100 ohms, C = 10 nF
