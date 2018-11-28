@@ -1,0 +1,792 @@
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{mcode}
+\usepackage{color}
+\usepackage{float}
+\usepackage{xfrac}
+\usepackage{fancyvrb}
+\usepackage{tabu}
+\usepackage{caption}
+\usepackage{verbatim}
+\usepackage{comment}
+
+
+
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\begin{document}
+
+
+
+\title{Lab 5: Extraction and Layout Versus Schematic }
+\author{
+Joshua Gould\\
+\IEEEauthorblockA{VLSI 09414\\
+Date: 10-26-2018\\
+Emails: gouldj5@students.rowan.edu}
+}
+\maketitle
+
+\IEEEpeerreviewmaketitle
+
+\begin{abstract}
+Integrated circuit (IC) layouts are susceptible to errors which can usually only be detected after a sample chip has been created. This report details the verification programs that identify the errors that delay or corrupt IC layouts at a point earlier in the design cycle of a given chip.  These programs compare layout against schematic (LVS) design and extract a theoretical view of the bridge the gap between hypothetical circuit design and application to real layout designs. As such, regarding propagation delay, the developed layout designs produced a smaller propagation delay of a 0.147 \% increase for the inverter design and a comparatively larger difference of 24.5\% decrease of delay for the NAND design. Conclusively, the custom designed, layout-based schematic diagram, after passing appropriate checks, produced a more efficient output to the given circuit design by decreasing propagation delay.
+\end{abstract}
+
+\section{Introduction and Objectives}
+Comparison between layout and schematic design ensures that the layout design is functionally equivalent to the circuit design of the logic in question. In this lab, the extracted visual design and circuit netlist is compared. Using DivaEXT to extract netlists, the next verification step is to pass the Layout Versus Schematic (LVS) process and check the circuit functions through simulations with the extracted netlist. 
+
+\label{sec:intro}
+\section{Background and Relevant Theory}
+\label{sec:background}
+
+\subsection{NOT Gate}
+\label{sec:NOT}
+
+Also known as an inverter, the NOT gate inverts the state of the input signal to the opposite state. The NOT gate is the most basic design for CMOS logic, displaying the NMOS and PMOS pairing characteristics. With an input (A) at ground value of 0, the inverter PMOS transistor in the NOT circuit pulls the source voltage of the output (Y) pin to high. With input at a high value of 1, the NMOS pulls down the output to 0. Physically, the NOT gate represents a CMOS logic ratio of 2:1 with the PMOS layout design being larger at the p+ diffusion layer.
+
+\subsection{NAND Gate}
+%   EDIT    %   EDIT    %   EDIT    %
+ Transistors in NAND gate have equal size. This is illustrated in the width and length of the NMOS and PMOS of Figure \ref{fig:nand-circ}. With a 2-input NAND gate, Here, the output is pulled low only when both of the inputs labelled A and B are both turned high. NAND circuits produce a $\frac{4}{3}$ logical effort to the design[1]. As such, the logical effort of the system proportially applies to the size of the system. Naturally, the delay in a NAND system is higher than the delay of a NOT circuit as due to the larger CMOS devices. This trend goes into a larger explanation in Section \ref{sec:delay}.
+\subsection{CMOS Layout Architecture}
+
+CMOS architecture and layout design can be constructed using the layers of conductive and insulating composition. The layers used in this design for all models are listed in Table \ref{table:layerdesc} along with the purpose of each layer. Understanding the overview of layout components allow for the layout designs of the NAND and NOT circuit to develop trends in delay reduction at the component level.
+
+\begin{table}[H]
+    \centering
+\begin{tabu} to 0.45\textwidth { | X[l] | X[l] | }
+ \hline
+Layer & Description   \\
+ \hline \hline
+  n-well & creation formed on a bare p-type silicon wafer to lay the base for NMOS transistor design\\
+ \hline
+ n+ diffusion  & lays ground for the transistor active area of negative diffusion  \\
+\hline
+p+ diffusion & lays ground for the transistor active area of negative diffusion \\
+\hline
+polysilicon & establishes connection between NMOS and PMOS through a polysilicon layer \\ 
+\hline
+ metal & used to connect metal contact between transistors and to output, VDD, and ground pins \\ 
+\hline
+contact & position to distinguish connections for CMOS and provide a contact for metal layers \\ 
+\hline
+\end{tabu}
+\caption{Descriptions of layout design layers}
+    \label{table:layerdesc}
+\end{table}
+
+\label{sec:Layout-desc}
+
+\subsection{Layout Extraction}
+\label{sec:Extraction}
+
+Circuit extraction is the configuration of an integrated circuit layout translated into an electrical circuit of intended similar design[1]. The extracted circuit is required for circuit simulation, optimization, and logic to layout comparison. 
+
+\subsection{Design Rules}
+The custom integrated chip (IC) layout for the CMOS logic design represents the layered masks used to fabricate a single component of a silicon wafer. The main objectives of the layout design are to build circuits in a reliably compact area.  Design rules are defined regarding layer separations, feature sizes, and overlaps based in lambda-based design rules[1]. Lambda ($\lambda$) describes resolution of the design process as a unit. Total verification of a chip involves the design rule check (DRC) and layout versus schematic (LVS) along with a few other checks. For this experiment, each layout was run under both design checks to properly verify each design for the NOT and NAND circuits. Design rules represent a compromise between chip performance and electrical yield with stronger rules producing greater opportunity for circuit improvements[1].
+
+\label{sec:designrules}
+
+\subsection{Delay}
+Delay within an inverter system can be measured to show the imperfections set by a transistor used in a design or the elements surrounding the transistor. For this report, delay characteristics of concern are the rise time, fall time, and propagation delay.
+
+\begin{align}
+    d = gh + p
+    \label{eq:delay}
+\end{align}
+
+Additionally, Equation \ref{eq:delay} references the delay of the gate of a single logic gate along with the components attached to it. This equation, with $g$ being the logical effort, $h$ being the electrical effort, and $p$ being the parasitic delay, measures the total delay of a certain CMOS logic system. Simply, the equation provides a trend to improve the delay of a system's performance based on gate type.
+\label{sec:delay}
+\subsection{Rise \& Fall Time}
+Rise time and fall time is the time between 20\% and the 80\% of the total transfer curve values. Specifically, rise time is the difference of time between the 20\% of the total value to 80\% of the total value. In this example, Equation\ref{eq:tf} and Equation \ref{eq:tr} refers to these properties measured on the input and output signal[1].
+
+\begin{align}
+    t_f = |t_{VDD@80\%} - t_{VDD@20\%}|
+    \label{eq:tf}\\
+    t_r = | t_{VDD@20\%} - t_{VDD@80\%}|
+    \label{eq:tr}
+\end{align}
+\subsection{Propagation Delay}
+Propagation delay refers to the maximum time from the input crossing signal at 50\% to the output crossing signal at 50\%. The average of the values at the rise and fall of the input and output signal is the propagation delay ($t_{pd}$) represented by Equation \ref{eq:tpd}[1].
+
+\begin{align}
+\frac{t_{pdf} + t_{pdr }}{2}
+    \label{eq:tpd}
+\end{align}
+
+Propagation delay is the greater obstacle in the area of IC development and can effectively bottleneck systems. Reducing propagation delay decreases the length of time for the input to become reactive and stable to change. 
+
+\section{Procedure}
+Cadence Layout Design software was used to develop the layout circuit design process and checking system. As a start, an inverter was created in the Cadence software. Layout designs used ran through a DRC check and the LVS check against a previously designed circuit, matching netlists. The layout was extracted and generated on a separate symbol schematic in order to compare the inverter layout against the pre-simulated circuit design built into cadence. This process was repeated for a NAND logic circuit. Delay relating to propagation, rise time, and fall time was measured at the appropriate junctures in order to compare the graphical simulations at each point.
+
+\section{Results and Discussion}
+\label{sec:Result}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                       %
+%               NOT                     %
+%                                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Inverter Layout}
+The custom inverter layout represents the CMOS masks used in wafers to fabricate a small part of the IC chips. The layout design provided in Figure \ref{fig:inv-layout} processes the layers detailed in Section \ref{sec:Layout-desc} color-coded with an implemented input pin provided at the poly layer in the middle of the design.
+
+Notably, Figure \ref{fig:inv-layout} includes the total size of the CMOS inverter design at 14.4$\lambda$ by 7.2$\lambda$. This total schematic design plays a role in the delay and cost of the overall design as detailed in Section \ref{sec:designrules} \& \ref{sec:delay}.   Improvements based on the framework of this design are explained in Section \ref{sec:compare-inv}.
+\label{sec:Inv-Layout}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.36 \textwidth]{Inv/vlsi-inv-size.png}
+    \caption{Inverter layout for comparison between the inverter circuit Figure \ref{fig:inv-circ}}
+    \label{fig:inv-layout}
+\end{figure}
+
+  
+  Extracted views from the design of Figure \ref{fig:inv-layout} in Appendix Section \ref{sec:inv-extract} This extracted circuit imposes the circuit simulation against the layout design for optimization to bring logic to layout comparison. 
+%custom IC layout for your CMOS inverter design. The layout represents masks used in wafer fabs to fabricate a die on a silicon wafer, which then eventually are packaged to become integrated circuit chips. 
+\subsection{LVS Comparison}
+Successful LVS comparison displays a determination on whether the integrated circuit layout corresponds to the original schematic or circuit diagram of the design. Figure \ref{fig:inv-lvs} displays the successful run of the inverter LVS design check of Figure \ref{fig:inv-layout} and Figure \ref{fig:inv-circ} 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.48\textwidth]{Inv/detail-lvs-view.png}
+    \caption{LVS text output verification showing no errors with a matching net-list report.}
+    \label{fig:inv-lvs}
+\end{figure}
+
+A full LVS output as provided in Section \ref{sec:lvs-inv-detail}.
+\subsection{Symbol Diagram}
+\label{sec:symbol}
+
+Symbol schematic designs as provided in Figure \ref{fig:inv-sym} allow for a compact representation of the extracted layout design to be easily simulated graphically to find rise, fall, and propagation delay times as well as any leakage provided at the output. As such, modelled by the in-out pins labeled appropriately "in" and "out" at the ends of the schematic of  Figure \ref{fig:inv-sym} correspond to the vdd and gnd terminal pins at the top and bottom of the inverter layout of Figure \ref{fig:inv-layout}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.48\textwidth]{Inv/inv_sym.png}
+    \caption{Inverter simulation symbol diagram for set of extracted view from Figure \ref{fig:inv-layout}}
+    \label{fig:inv-sym}
+\end{figure}
+
+Outputs of this design are provided in Section \ref{sec:post-nand-layout} on Figure \ref{fig:inv-post} where the input terminal is depicted in blue, and output red.
+\subsection{Post-Layout Simulation}
+\label{sec:post-nand-layout}
+Post-layout simulation used for the inverter simulation with one input varying at a period of 2n where $n$ is the variable representing the time-frame of the inverter schematic, while applying constant 5V (or 0V) for global maximum input.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.48 \textwidth]{Inv/inv-postsimout-nolabel.png}
+    \caption{Layout based simulation output used in Figure \ref{fig:inv-sym} with plotted values at the input and output of the layout design with a reference voltage input of 5 V.}
+    \label{fig:inv-post}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+\begin{tabu} to 0.48\textwidth { | X[c] | X[c] | X[c] |}
+\hline 
+Component &  Delay & Value (ns)  \\ 
+\hline\hline
+Input & $t_f$ & 0.06\\ 
+\hline
+Input & $t_r$ & 0.06\\ 
+\hline
+Output & $t_f$ & 0.05386\\ 
+\hline
+Output & $t_r$ & 0.05117\\ 
+\hline
+In/Out & $t_{pd}$ & 0.064710\\ 
+\hline
+\end{tabu}
+\caption{Inverter (NOT) Input to Output data involving rise, fall, and propagation delay for layout design transient simulation provided in Figure \ref{fig:inv-post}.}
+\label{table:inv-postsimdata}
+\end{table}
+
+Post layout simulation details are provided at Figure \ref{fig:detail-nandout} and with Section \ref{sec:graph-measurements-raw}. Presently, each component of delay is measured using Equation \ref{eq:tr}, \ref{eq:tf}, and \ref{eq:tpd}. 
+\subsection{Result Comparison Between Inverter Simulations}
+
+Results of the pre-layout simulation from Lab 4 layout solutions and present the input to output graphical representations from the circuit provided in Figure \ref{fig:inv-circ}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.48\textwidth]{Inv/tutorial3-output_tf_tr.png}
+    \caption{Pre-layout inverter simulation output based on the theoretical circuit diagram.}
+    \label{fig:inv-pre}
+\end{figure}
+
+Of notable design, the input of each circuit presented to be similar in that the input power to this layout and circuit are measured without any circuit modifications.
+
+ \begin{table}[H]
+    \centering
+\begin{tabu} to 0.48\textwidth { | X[c] | X[c] | X[c] |}
+\hline 
+Component &  Delay & Value (ns)\\ 
+\hline\hline
+Input & $t_f$ & 0.06\\ 
+\hline
+Input & $t_r$ & 0.06\\ 
+\hline
+Output & $t_f$ & 0.05382 \\ 
+\hline
+Output & $t_r$ & 0.04786\\ 
+\hline
+In/Out & $t_{pd}$ & 0.064805 \\ 
+\hline
+\end{tabu}
+\caption{Inverter (NOT) Input to Output data involving rise, fall, and propagation delay for circuit-based delay values.}
+\label{table:inv-circdelayout}
+\end{table}
+
+ \begin{table}[H]
+    \centering
+\begin{tabu} to 0.35\textwidth { | X[c] | X[c] |}
+\hline 
+Component &  Percent Difference (\%) \\ 
+\hline\hline
+$t_f$ & 0.0743 \% \\ 
+\hline
+$t_r$ & 6.92 \% \\ 
+\hline
+$t_{pd}$ & 0.147 \% \\ 
+\hline
+\end{tabu}
+\caption{Comparison of values between Figure \ref{fig:inv-post} and \ref{fig:inv-pre} displaying the percent error between each output value provided by the Tables of \ref{table:inv-circdelayout} and \ref{table:inv-postsimdata}.}
+\label{table:perc-diff-inv}
+\end{table}
+
+Of interest to delay prospects, the inverter design output produced by the layout of Figure \ref{fig:inv-layout} should process a lower propagation delay where a shorter amount of time between input and output allows for a decreased system switch time and increased system stability. As such the absolute value of percent difference to the two systems show that the propagation delay of the layout design improved in performance allowing to make assumptions that the overall design of Figure \ref{fig:inv-layout} to be said to have improved the IC. However, it is of note that the rise time of the system increased for the layout design which notably delays the system from an 'off' to 'on' state. This design specification is applied to the PMOS device as the PMOS device pulls the inverter to Vdd. The system capacitance at the PMOS device should be decreased in order to improve this characteristic.
+
+\label{sec:compare-inv}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                       %
+%               NAND                    %
+%                                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{NAND Layout}
+\label{sec:nand-layout}
+
+Figure \ref{fig:nand_layout} includes the pinout label of the CMOS inverter design at a size of 18.9$\lambda$ by 9.6$\lambda$. This total schematic design plays a role in the delay and cost of the overall design as detailed in Section \ref{sec:designrules} and \ref{sec:delay}.   Improvements based on the framework of this design are explained in Section \ref{sec:compare-nand}.
+
+Section \ref{sec:NAND-circ} displays with Figure \ref{fig:nand-circ} that the design NAND circuit elements followed a CMOS size-ratio of 2:2 along with the layout design provided below. This schematic is referenced with Figure \ref{fig:nand_layout} to meet LVS design requirements and cross-check the netlist elements on each work.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.32\textwidth]{NAND/Layout_NAND.png}
+    \caption{Layout design for NAND circuit provided in Figure \ref{fig:nand-circ} with applied pins at Vdd, ground, output, and input pins at A and B}
+    \label{fig:nand_layout}
+\end{figure}
+
+\subsection{NAND DRC Results}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width =0.48\textwidth]{NAND/DRC_results_NAND.png}
+    \caption{DRC results of NAND layout design displaying an output of no errors}
+    \label{fig:DRC-nand}
+\end{figure}
+Design rule checking of the electronic design determined that the physical layout matched the design rules. However, DRC does not promise an accurate representation of the circuit desired in fabrication. LVS check is used to guarantee this design representation for real-world implementation 
+
+\subsection{LVS Comparison}
+Successful LVS comparison
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.48\textwidth]{LVS/nand-lvs.png}
+    \caption{LVS text output verification for NAND layout design showing no errors.}
+    \label{fig:nand-lvs}
+\end{figure}
+
+The successful LVS comparison displays a that the integrated circuit layout corresponded to the original schematic or circuit diagram of the design. Figure \ref{fig:nand-lvs} displays the successful run of the inverter LVS design check of Figure \ref{fig:nand_layout} and Figure \ref{fig:nand-circ}. A detailed view of the NAND LVS output is provided in Appendix Section \ref{sec:nand-lvs-detail}
+
+\subsection{NAND Schematic}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.4\textwidth]{NAND/nand-symb.png}
+    \caption{Caption}
+    \label{fig:nand_symb}
+\end{figure}
+
+The NAND symbol schematic is modeled after the extracted view of the Figure \ref{fig:NAND-extract} with in-out pins at A, B, and out. Pins correspond to the pins displayed on the layout design of Figure \ref{fig:nand_layout} displaying for the output at Figure \ref{fig:nand-post}.
+
+\subsection{Post Layout Simulation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{NAND/OutputNAND_post_sim_label.png}
+    \caption{Transient simulation of layout symbol (Figure \ref{fig:nand_symb}) from 0 to 5 volt DC over time at varying input at 'B' and stable input at 'A' with 5 volt DC to vary output design. Simulation is labeled with time delay characteristics to show differences between a circuit based theoretical simulation.}
+    \label{fig:nand-post}
+\end{figure}
+
+
+
+ \begin{table}[H]
+    \centering
+\begin{tabu} to 0.45\textwidth { | X[c] | X[c] | X[c] |}
+\hline 
+Component &  Delay & Value (ns)\\ 
+\hline\hline
+A & $t_f$ & 0.06 \\ 
+\hline
+A & $t_r$ & 0.06 \\ 
+\hline
+Output & $t_f$ & 0.06509  \\ 
+\hline
+Output & $t_r$ & 0.05811\\ 
+\hline
+In/Out & $t_{pd}$ & 0.075405  \\ 
+\hline
+\end{tabu}
+\caption{NAND Input to Output data with 'B' input set to a steady 5 Vdc involving rise, fall, and propagation delay for layout design transient simulation.}
+\label{table:nand-delaycalc-layout}
+\end{table}
+%$CREATE TABLE ON POST SIM T_R, $
+%$T_F, T_PD, AREA DELAY, OTHER TYPES OF DELAY$
+%Report ON SIZE OF SYSTEM ASSOCIATED TO DELAY
+
+
+
+\subsection{Result Comparison}
+\label{sec:compare-nand}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{NAND/OutputNAND_pre_sim_label.png}
+    \caption{Transient simulation of circuit from 0 to 5 volt DC over time at varying input at 'B' and stable input at 'A' with 5 volt DC to vary output design. Simulation is labeled with time delay characteristics to show differences between a layout based experimental simulation.}
+    \label{fig:nand-pre}
+\end{figure}
+
+Similarly to the NOT design, the input of each circuit presented to be similar in that the input power to this layout and circuit are measured without any circuit modifications.
+ \begin{table}[H]
+    \centering
+\begin{tabu} to 0.45\textwidth { | X[c] | X[c] | X[c] |}
+\hline 
+ Component &  Delay & Value (ns) \\ 
+\hline\hline
+ A & $t_f$ & 0.06\\ 
+\hline
+A & $t_r$ & 0.06\\ 
+\hline
+ Output & $t_f$ & 0.12005 \\ 
+\hline
+ Output & $t_r$ & 0.07146\\ 
+\hline
+ In/Out & $t_{pd}$ & 0.099895 \\ 
+\hline
+\end{tabu}
+\caption{NAND Input to Output data with 'B' input set to a steady 5 Vdc involving rise, fall, and propagation delay for circuit-based delay.}
+\label{table:nand-delaycalc-circ}
+\end{table}
+
+ \begin{table}[H]
+    \centering
+\begin{tabu} to 0.35\textwidth { | X[c] | X[c] |}
+\hline 
+Component &  Percent Difference (\%) \\ 
+\hline\hline
+$t_f$ & 45.8 \% \\ 
+\hline
+$t_r$ & 18.7 \% \\ 
+\hline
+$t_{pd}$ & 24.5 \% \\ 
+\hline
+\end{tabu}
+\caption{Comparison of values between Figure \ref{fig:nand-post} and \ref{fig:nand-pre} displaying the percent error between each output value provided by the Tables of \ref{table:nand-delaycalc-layout} and \ref{table:nand-delaycalc-circ}.}
+\label{table:perc-diff-nand}
+\end{table}
+
+The NAND design output, similar to the NOT gate,  produced by the layout of Figure \ref{fig:nand_layout} processes a lower propagation delay where a shorter amount of time between input and output allows for a decreased system switch time and increased system stability. As such the absolute value of percent difference to the two systems show that the propagation delay of the layout design improved in performance allowing to make assumptions that the overall design of Figure \ref{fig:nand_layout} to be said to have improved the IC. Unlike the inverter however, the NAND design improved on all fronts, for time rise, fall, and propagation by a larger margin than the inverter. System improvements could be performed on reducing the distance between diffusion layers of the layout and the overall surface area.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       CONCLUSION              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conclusions}
+
+In this experiment, layout design versus schematic design was implemented through the Cadence medium to perform a DRC and LVS check of each gate CMOS system. The NOT and NAND layouts created a visual to show the surface area of the chip that relates to the system delay and time propagation. DRC results of the layout circuit design, similar in given design rules, produced no errors. LVS results produced an output that states that the netlists matched. This verifies that the layouts followed design rules and are properly matching the circuit designs. The layout designs additionally improved the delay on the CMOS system displaying that system improvements can be found in layout modification and rule checking.
+
+\begin{thebibliography}{99}
+
+\bibitem{Standard:IEEE12207}
+\textit{N. Weste and D. Harris, Principles of CMOS VLSI design}. Reading, Mass.: Addison-Wesley Pub. Co., 1993.
+
+\end{thebibliography}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %              APPENDIX            %
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+\clearpage
+\onecolumn
+\section{Appendix}
+\subsection{Lab 5 Data Tables}
+
+ \begin{table}[H]
+    \centering
+\begin{tabu} to 0.8\textwidth { | X[c] | X[c] | X[c] | | X[c] | X[c] | X[c] |}
+\hline 
+Component &  Delay & Value (ns) & Component &  Delay & Value (ns) \\ 
+\hline\hline
+Input & $t_f$ & 0.06 & Input & $t_f$ & 0.06\\ 
+\hline
+Input & $t_r$ & 0.06 & Input & $t_r$ & 0.06\\ 
+\hline
+Output & $t_f$ & 0.05386 & Output & $t_f$ & 0.05382 \\ 
+\hline
+Output & $t_r$ & 0.05117 & Output & $t_r$ & 0.04786\\ 
+\hline
+In/Out & $t_{pd}$ & 0.064710 & In/Out & $t_{pd}$ & 0.064805 \\ 
+\hline
+\end{tabu}
+\caption{Inverter (NOT) Input to Output data involving rise, fall, and propagation delay for layout design transient simulation (left) and circuit-based delay (right).}
+\label{table:inv-delaycalc}
+\end{table}
+
+ \begin{table}[H]
+    \centering
+\begin{tabu} to 0.8\textwidth { | X[c] | X[c] | X[c] | | X[c] | X[c] | X[c] |}
+\hline 
+Component &  Delay & Value (ns) & Component &  Delay & Value (ns) \\ 
+\hline\hline
+A & $t_f$ & 0.06 & A & $t_f$ & 0.06\\ 
+\hline
+A & $t_r$ & 0.06 & A & $t_r$ & 0.06\\ 
+\hline
+Output & $t_f$ & 0.06509 & Output & $t_f$ & 0.12005 \\ 
+\hline
+Output & $t_r$ & 0.05811 & Output & $t_r$ & 0.07146\\ 
+\hline
+In/Out & $t_{pd}$ & 0.075405 & In/Out & $t_{pd}$ & 0.099895 \\ 
+\hline
+\end{tabu}
+\caption{NAND Input to Output data with 'B' input set to a steady 5 Vdc involving rise, fall, and propagation delay for layout design transient simulation (left) and circuit-based delay (right).}
+\label{table:nand-delaycalc}
+\end{table}
+\subsection{NOT Circuit}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Inv/inv_circ_lab4.png}
+    \caption{Circuit design for NOT logic with PMOS to NMOS area of 2 to 1 respectively. Pin-outs for the circuit provided match the in-out pins of the schematic provided in Figure \ref{fig:inv-sym}.}
+    \label{fig:inv-circ}
+\end{figure}
+
+\subsection{Inverter Netlist Extraction}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.5 \textwidth]{Inv/extract-inv.png}
+    \caption{Extracted view of inverter layout provided in Figure \ref{fig:inv-layout}}
+    \label{fig:inv-extract}
+\end{figure}
+\label{sec:inv-extract}
+\newpage
+\subsection{NAND Circuit}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.48 \textwidth]{NAND/circ2_NAND.png}
+    \caption{Circuit design for NAND logic with PMOS to NMOS area of 2 to 2 respectively. Pin-outs for the circuit provided match the in-out pins of the schematic provided in Figure \ref{fig:nand_symb}.}
+    \label{fig:nand-circ}
+
+\end{figure}
+
+
+\label{sec:NAND-circ}
+
+\subsection{NAND extracted design}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 0.55\textwidth]{NAND/Extract_nand2.png}
+    \caption{Extracted view of NAND layout provided in Figure \ref{fig:nand_layout}}
+    \label{fig:NAND-extract}
+\end{figure}
+\subsection{NAND Detailed Output}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{NAND/OutputNAND_post_sim_label.png}
+    \caption{Detailed output of NAND post-layout simulation.}
+    \label{fig:detail-nandout}
+\end{figure}
+
+\twocolumn
+\subsection{Raw Data Input for Lab 5 Graph Measurements}
+\label{sec:graph-measurements-raw}
+\begin{verbatim}
+
+-------------------------------------
+DATA LAB 5
+-------------------------------------
+INV Graph
+------------------
+int_f @ 4 V = 1.12 ns
+int_f @ 1 V = 1.18
+int_r @ 4 V = 2.08 ns
+int_r @ 1 V = 2.02 ns 
+inp_df@ 2.5 V = 1.15 ns
+inp_dr@ 2.5 V = 2.05 ns
+
+outt_r @ 4V = 1.23117 ns
+outt_r @ 1V = 1.18 ns
+outt_f @ 4V = 2.10161 ns
+outt_f @ 1V = 2.15547 ns
+outp_df @ 2.5V = 2.12574 ns
+outp_dr @ 2.5V = 1.20368 ns
+
+tpdf = 0.07574 ns
+tpdr = 0.05368 ns
+tpd = 0.064710 ns
+------------------
+Presim 
+------------------
+outp_df @ 2.5V = 2.12574 ns
+outp_dr @ 2.5V = 1.20387 ns
+outt_r @ 4V = 1.23117 ns
+outt_r @ 1V = 1.18 ns
+outt_f @ 4V = 2.10161 ns
+outt_f @ 1V = 2.15547 ns
+
+inp_df@ 2.5 V = 1.15 ns
+inp_dr@ 2.5 V = 2.05 ns
+int_f @ 4 V = 1.12 ns
+int_f @ 1 V = 1.18
+int_r @ 4 V = 2.08 ns
+int_r @ 1 V = 2.02 ns 
+
+tpdf = 0.07574 ns
+tpdr = 0.05387 ns
+tpd = 0.064805 ns
+
+--------------------
+NAND GRAPH
+--------------------
+
+At_f @ 4 V = 1.12ns
+At_f @ 1 V = 1.18ns
+
+Ap_df@ 2.5 V = 1.14ns
+Ap_dr@ 2.5 V = 2.05ns
+
+outt_r @ 4V = 1.25922ns
+outt_r @ 1V = 1.20111ns
+
+outt_f @ 4V = 2.09290ns
+outt_f @ 1V = 2.15799ns
+
+outp_df @ 2.5V = 1.22361ns
+outp_dr @ 2.5V = 2.11720ns
+size  = 9.6 x 18.9
+--------------------
+Presim
+--------------------
+
+outt_r @ 4V = 1.39408ns
+outt_r @ 1V = 1.24519ns
+tr_out = 0.07146
+outt_f @ 4V = 2.13035ns 
+outt_f @ 1V = 2.26974ns 
+t_f_out = 0.12005
+tpdf = 1.22066-1.15
+tpdr = 2.17913-2.05
+tpd = 0.099895
+\end{verbatim}
+\clearpage
+\onecolumn
+%\VerbatimInput{netlist.txt}
+\subsection{LVS Text Output for Inverter Design}
+\label{sec:lvs-inv-detail}
+\begin{verbatim}
+
+    @(#)$CDS: LVS version 6.1.6 09/01/2015 15:36 (sjfnl125) $
+
+Command line: /opt/cadence/installs/IC616/tools.lnx86/dfII/bin/32bit/...
+Like matching is enabled.
+Net swapping is enabled.
+Using terminal names as correspondence points.
+Compiling Diva LVS rules...
+
+    Net-list summary for /home/gouldj5/cadence/LVS/layout/netlist
+       count
+        4               nets
+        4               terminals
+        1               pmos
+        1               nmos
+
+    Net-list summary for /home/gouldj5/cadence/LVS/schematic/netlist
+       count
+        4               nets
+        4               terminals
+        1               pmos
+        1               nmos
+
+
+    Terminal correspondence points
+    N0        N0        gnd!
+    N3        N5        in
+    N2        N3        out
+    N1        N1        vdd!
+
+Devices in the netlist but not in the rules:
+        pcapacitor
+Devices in the rules but not in the netlist:
+        cap nfet pfet nmos4 pmos4
+
+The net-lists match.
+
+                             layout  schematic
+                                instances
+        un-matched              0       0      
+        rewired                 0       0      
+        size errors             0       0      
+        pruned                  0       0      
+        active                  2       2      
+        total                   2       2      
+
+                                  nets
+        un-matched              0       0      
+        merged                  0       0      
+        pruned                  0       0      
+        active                  4       4      
+        total                   4       4      
+
+                                terminals
+        un-matched              0       0      
+        matched but
+        different type          0       0      
+        total                   4       4      
+
+
+Probe files from /home/gouldj5/cadence/LVS/schematic
+
+devbad.out:
+
+netbad.out:
+
+mergenet.out:
+
+termbad.out:
+
+prunenet.out:
+
+prunedev.out:
+
+audit.out:
+
+
+Probe files from /home/gouldj5/cadence/LVS/layout
+
+devbad.out:
+
+netbad.out:
+
+mergenet.out:
+
+termbad.out:
+
+prunenet.out:
+
+prunedev.out:
+
+audit.out:
+
+\end{verbatim}
+
+\subsection{NAND LVS Detailed View}
+\label{sec:nand-lvs-detail}
+\begin{verbatim}
+@(#)$CDS: LVS version 6.1.6 09/01/2015 15:36 (sjfnl125) $
+
+Command line: /opt/cadence/.../gouldj5/cadence/LVS/schematic
+Like matching is enabled.
+Net swapping is enabled.
+Using terminal names as correspondence points.
+Compiling Diva LVS rules...
+
+    Net-list summary for /home/gouldj5/cadence/LVS/layout/netlist
+       count
+        6               nets
+        5               terminals
+        2               pmos
+        2               nmos
+
+    Net-list summary for /home/gouldj5/cadence/LVS/schematic/netlist
+       count
+        6               nets
+        5               terminals
+        2               pmos
+        2               nmos
+
+
+    Terminal correspondence points
+    N3        N6        A
+    N2        N7        B
+    N1        N0        gnd!
+    N5        N2        out
+    N4        N1        vdd!
+
+Devices in the netlist but not in the rules:
+        pcapacitor
+Devices in the rules but not in the netlist:
+        cap nfet pfet nmos4 pmos4
+
+The net-lists match.
+
+                             layout  schematic
+                                instances
+        un-matched              0       0      
+        rewired                 0       0      
+        size errors             0       0      
+        pruned                  0       0      
+        active                  4       4      
+        total                   4       4      
+
+                                  nets
+        un-matched              0       0      
+        merged                  0       0      
+        pruned                  0       0      
+        active                  6       6      
+        total                   6       6      
+
+                                terminals
+        un-matched              0       0      
+        matched but
+        different type          0       0      
+        total                   5       5      
+
+
+Probe files from /home/gouldj5/cadence/LVS/schematic
+
+devbad.out:
+
+netbad.out:
+
+mergenet.out:
+
+termbad.out:
+
+prunenet.out:
+
+prunedev.out:
+
+audit.out:
+
+
+Probe files from /home/gouldj5/cadence/LVS/layout
+
+devbad.out:
+
+netbad.out:
+
+mergenet.out:
+
+termbad.out:
+
+prunenet.out:
+
+prunedev.out:
+
+audit.out:
+
+    
+\end{verbatim}
+
+\end{document}
+ 

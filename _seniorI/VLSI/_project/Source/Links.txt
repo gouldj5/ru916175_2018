@@ -1,0 +1,2 @@
+https://www.ece.ucsb.edu/Faculty/Johnson/ECE152A/handouts/L7%20-%20Flip-Flops%20and%20Sequential%20Circuit%20Design.pdf
+http://www2.ece.ohio-state.edu/~bibyk/ee683/DFFdesign.pdf
