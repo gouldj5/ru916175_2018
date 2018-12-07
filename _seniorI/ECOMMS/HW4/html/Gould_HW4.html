@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Homework 4 - Joshua Gould</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-11-18"><meta name="DC.source" content="Gould_HW4.m"><style type="text/css">
+      --><title>Homework 4 - Joshua Gould</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-11-19"><meta name="DC.source" content="Gould_HW4.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,35 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Homework 4 - Joshua Gould</h1><!--introduction--><p>Joshua Gould - ECOMMS - 11/20/2018</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem 1</a></li><li><a href="#2">Problem 2</a></li><li><a href="#3">Problem 3</a></li></ul></div><h2 id="1">Problem 1</h2><p>A  Pulse  code  modulation  (PCM)  signal  is  a  binary  signal.  The digital  PCM  is  converted  from  an analog s ignal. The bandwidth of the analog signal is 1kHz. To convert the analog signal to the digital signal, the voltage of each sampling point is divided into 8 levels. (a) What is the baud (symbol rate) for this PCM signal? (b) What is the bit rate for this PCM signal? (c) What  is  the  minimum  bandwidth  for  a communication  system  to  transmit  this  PCM  signal (in unit of kHz)?</p><h2 id="2">Problem 2</h2><p>A  multilevel  digital  communication  system  sends  one  of  16 possible  levels  over  the  channel  every 0.8ms (a) What is the numbe r of bits corresponding to each level ? Or in another word, how many bits in each symbol? Note that the levels in this problem are different from the levels in the last problem.  In  the  last  problem,  levels  are from  analog  to  digital  conversion,  while  in  thi s problem, the digital signal itself is a multilevel signal. (b) What is the baud (symbol rate)? (c) What is he bit rate?</p><h2 id="3">Problem 3</h2><p>The input of a differential coding signal is 10110010 Begin with the % reference digit &#8220;1&#8221;, what is the en coded sequence? In your solution, please label, which digit is reference digit, which digits are encoded sequence.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+  </style></head><body><div class="content"><h1>Homework 4 - Joshua Gould</h1><!--introduction--><p>Joshua Gould - ECOMMS - 11/20/2018</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem 1</a></li><li><a href="#2">Problem 1a</a></li><li><a href="#3">Problem 1b</a></li><li><a href="#4">Problem 1c</a></li><li><a href="#5">Problem 2 - Textbook 3-21</a></li><li><a href="#6">Problem 2a</a></li><li><a href="#7">Problem 2b</a></li><li><a href="#8">Problem 2c</a></li><li><a href="#9">Problem 3</a></li></ul></div><h2 id="1">Problem 1</h2><p>A  Pulse  code  modulation  (PCM)  signal  is  a  binary  signal.  The digital  PCM  is  converted  from  an analog signal. The bandwidth of the analog signal is 1kHz. To convert the analog signal to the digital signal, the voltage of each sampling point is divided into 8 levels.</p><h2 id="2">Problem 1a</h2><p>What is the baud (symbol rate) for this PCM signal?</p><pre class="codeinput">clc
+B = 1; <span class="comment">%kHz</span>
+n = 3;
+L = 2^n;
+SR = 2*B;
+fprintf(<span class="string">'Baud (symbol rate) = %f kHz'</span>,SR)
+</pre><pre class="codeoutput">Baud (symbol rate) = 2.000000 kHz</pre><h2 id="3">Problem 1b</h2><p>What is the bit rate for this PCM signal?</p><pre class="codeinput">BR = SR;
+fprintf(<span class="string">'\nBit rate = %f kHz'</span>,BR)
+</pre><pre class="codeoutput">
+Bit rate = 2.000000 kHz</pre><h2 id="4">Problem 1c</h2><p>What  is  the  minimum  bandwidth  for  a communication  system  to  transmit  this  PCM  signal (in unit of kHz)?</p><pre class="codeinput">MinB = SR/2;
+fprintf(<span class="string">'\nMinimum Bandwidth for a communication system = %f kHz'</span>,MinB)
+</pre><pre class="codeoutput">
+Minimum Bandwidth for a communication system = 1.000000 kHz</pre><h2 id="5">Problem 2 - Textbook 3-21</h2><p>A  multilevel  digital  communication  system  sends  one  of  16 possible  levels  over  the  channel  every 0.8ms</p><pre class="codeinput">clc
+fqs = 0.8; <span class="comment">%ms</span>
+n = 4;
+L = 2^n;
+</pre><h2 id="6">Problem 2a</h2><p>What is the number of bits corresponding to each level ? Or in another word, how many bits in each symbol? Note that the levels in this problem are different from the levels in the last problem.  In  the  last problem,  levels  are from  analog  to  digital  conversion,  while  in this problem, the digital signal itself is a multilevel signal.</p><pre class="codeinput">R = L*fqs;
+fprintf(<span class="string">'Number of bits per level = %f bits'</span>,R)
+</pre><pre class="codeoutput">Number of bits per level = 12.800000 bits</pre><h2 id="7">Problem 2b</h2><p>What is the baud (symbol rate)?</p><pre class="codeinput">SR = 1/fqs;
+fprintf(<span class="string">'\nBaud (symbol rate) = %f kHz'</span>,SR)
+</pre><pre class="codeoutput">
+Baud (symbol rate) = 1.250000 kHz</pre><h2 id="8">Problem 2c</h2><p>What is the bit rate?</p><pre class="codeinput">BR = L*fqs;
+fprintf(<span class="string">'\nBit rate = %f kHz'</span>,BR)
+</pre><pre class="codeoutput">
+Bit rate = 12.800000 kHz</pre><h2 id="9">Problem 3</h2><p>The input of a differential coding signal is 10110010. Begin with the % reference digit &#8220;1&#8221;, what is the en coded sequence? In your solution, please label, which digit is reference digit, which digits are encoded sequence.</p><pre class="codeinput">clc
+Refsignal = 10110010;
+Enc = 00101011;
+fprintf(<span class="string">'Encoded Signal = 00101011 with reference digit highlighted'</span>)
+</pre><pre class="codeoutput">Encoded Signal = 00101011 with reference digit highlighted</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Homework 4 - Joshua Gould
 % Joshua Gould -
@@ -74,25 +102,60 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 % 11/20/2018
 %% Problem 1 
 % A  Pulse  code  modulation  (PCM)  signal  is  a  binary  signal.  The
-% digital  PCM  is  converted  from  an analog s ignal. The bandwidth of
+% digital  PCM  is  converted  from  an analog signal. The bandwidth of
 % the analog signal is 1kHz. To convert the analog signal to the digital
-% signal, the voltage of each sampling point is divided into 8 levels. (a)
-% What is the baud (symbol rate) for this PCM signal? (b) What is the bit
-% rate for this PCM signal? (c) What  is  the  minimum  bandwidth  for  a
-% communication  system  to  transmit  this  PCM  signal (in unit of kHz)?
-%% Problem 2
+% signal, the voltage of each sampling point is divided into 8 levels.
+%% Problem 1a
+% What is the baud (symbol rate) for this PCM signal? 
+clc
+B = 1; %kHz
+n = 3;
+L = 2^n;
+SR = 2*B;
+fprintf('Baud (symbol rate) = %f kHz',SR)
+%% Problem 1b
+% What is the bit rate for this PCM signal?
+
+BR = SR;
+fprintf('\nBit rate = %f kHz',BR)
+
+%% Problem 1c
+% What  is  the  minimum  bandwidth  for  a communication  system  to  transmit  this  PCM  signal (in unit of kHz)?
+MinB = SR/2;
+fprintf('\nMinimum Bandwidth for a communication system = %f kHz',MinB)
+
+%% Problem 2 - Textbook 3-21
 % A  multilevel  digital  communication  system  sends  one  of  16
-% possible  levels  over  the  channel  every 0.8ms (a) What is the numbe r
-% of bits corresponding to each level ? Or in another word, how many bits
-% in each symbol? Note that the levels in this problem are different from
-% the levels in the last problem.  In  the  last  problem,  levels  are
-% from  analog  to  digital  conversion,  while  in  thi s problem, the
-% digital signal itself is a multilevel signal. (b) What is the baud
-% (symbol rate)? (c) What is he bit rate?
+% possible  levels  over  the  channel  every 0.8ms 
+clc
+fqs = 0.8; %ms
+n = 4;
+L = 2^n;
+%% Problem 2a
+% What is the number of bits corresponding to each level ? Or in another
+% word, how many bits in each symbol? Note that the levels in this problem
+% are different from the levels in the last problem.  In  the  last
+% problem,  levels  are from  analog  to  digital  conversion,  while  in
+% this problem, the digital signal itself is a multilevel signal.
+
+R = L*fqs;
+fprintf('Number of bits per level = %f bits',R)
+%% Problem 2b
+% What is the baud (symbol rate)?
+SR = 1/fqs;
+fprintf('\nBaud (symbol rate) = %f kHz',SR)
+%% Problem 2c
+% What is the bit rate?
+BR = L*fqs;
+fprintf('\nBit rate = %f kHz',BR)
 %% Problem 3 
-% The input of a differential coding signal is 10110010 
+% The input of a differential coding signal is 10110010.
 % Begin with the % reference digit “1”, what is the en coded sequence? In your solution,
 % please label, which digit is reference digit, which digits are encoded
 % sequence.
+clc
+Refsignal = 10110010;
+Enc = 00101011;
+fprintf('Encoded Signal = 00101011 with reference digit highlighted')
 ##### SOURCE END #####
 --></body></html>

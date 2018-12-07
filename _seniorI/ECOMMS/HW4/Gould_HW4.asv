@@ -55,7 +55,7 @@ fprintf('\nBit rate = %f kHz',BR)
 % Begin with the % reference digit “1”, what is the en coded sequence? In your solution,
 % please label, which digit is reference digit, which digits are encoded
 % sequence.
-clc
+cl
 Refsignal = 10110010;
 Enc = 00101011;
-fprintf('Encoded Signal = 00101011 with reference digit highlighted')
+fprintf('Encoded Signal = %d',round(Enc))
